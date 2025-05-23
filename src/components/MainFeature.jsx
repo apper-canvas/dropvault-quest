@@ -514,7 +514,7 @@ const MainFeature = () => {
                           </button>
                         </div>
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
                 </tbody>
               </table>

@@ -91,28 +91,3 @@ const NotFound = () => {
 }
 
 export default NotFound
-            to="/"
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-xl transition-all duration-200 shadow-soft hover:shadow-card group"
-          >
-            <ApperIcon name="Home" className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            <span>Back to Home</span>
-          </Link>
-          
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <button className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-300 rounded-xl hover:bg-surface-200 dark:hover:bg-surface-700 transition-all duration-200 border border-surface-200 dark:border-surface-700">
-              <ApperIcon name="RefreshCw" className="w-4 h-4" />
-              <span className="text-sm">Refresh Page</span>
-            </button>
-            
-            <button className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-300 rounded-xl hover:bg-surface-200 dark:hover:bg-surface-700 transition-all duration-200 border border-surface-200 dark:border-surface-700">
-              <ApperIcon name="ArrowLeft" className="w-4 h-4" />
-              <span className="text-sm">Go Back</span>
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    </div>
-  )
-}
-
-export default NotFound

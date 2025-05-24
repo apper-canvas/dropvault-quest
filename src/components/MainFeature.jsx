@@ -525,17 +525,30 @@ const MainFeature = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center py-12 sm:py-16 lg:py-20"
+          className="text-center py-16 sm:py-20 lg:py-24"
         >
-          <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 bg-surface-100 dark:bg-surface-800 rounded-3xl flex items-center justify-center">
-            <ApperIcon name="FolderOpen" className="w-12 h-12 sm:w-16 sm:h-16 text-surface-400 dark:text-surface-500" />
+          <div className="w-32 h-32 sm:w-40 sm:h-40 mx-auto mb-8 sm:mb-12 bg-gradient-to-br from-surface-100 to-surface-200 dark:from-surface-800 dark:to-surface-900 rounded-3xl flex items-center justify-center shadow-soft border border-surface-200 dark:border-surface-700">
+            <ApperIcon name="CloudUpload" className="w-16 h-16 sm:w-20 sm:h-20 text-surface-400 dark:text-surface-500" />
           </div>
-          <h3 className="text-xl sm:text-2xl font-semibold text-surface-700 dark:text-surface-300 mb-4">
-            No files uploaded yet
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-surface-700 dark:text-surface-300 mb-6">
+            Ready to get started?
           </h3>
-          <p className="text-surface-500 dark:text-surface-400 mb-8 max-w-md mx-auto">
-            Upload your first files using the drag and drop area above or click the browse button to get started.
+          <p className="text-lg sm:text-xl text-surface-500 dark:text-surface-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Upload your first files using the beautiful drag and drop area above, or click the browse button to select multiple files from your device.
           </p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="btn-primary inline-flex items-center gap-3 text-lg"
+            >
+              <ApperIcon name="Upload" className="w-6 h-6" />
+              <span>Upload Your First Files</span>
+            </button>
+          </motion.div>
         </motion.div>
       )}
     </div>

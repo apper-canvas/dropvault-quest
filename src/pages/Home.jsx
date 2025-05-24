@@ -159,45 +159,48 @@ const Home = () => {
         <MainFeature />
       </motion.section>
 
-      {/* Features Grid */}
+      {/* Enhanced Features Grid */}
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.0 }}
-        className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20"
+        className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24"
       >
         <div className="max-w-7xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1 }}
-            className="text-center mb-12 sm:mb-16"
+            className="text-center mb-16 sm:mb-20"
           >
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-surface-900 dark:text-white mb-4 sm:mb-6">
-              Powerful Features for Modern File Management
+            <h3 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-surface-900 dark:text-white mb-6 sm:mb-8 leading-tight">
+              <span className="block">Powerful Features for</span>
+              <span className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Modern File Management
+              </span>
             </h3>
-            <p className="text-lg text-surface-600 dark:text-surface-400 max-w-2xl mx-auto">
+            <p className="text-xl lg:text-2xl text-surface-600 dark:text-surface-400 max-w-3xl mx-auto leading-relaxed font-medium">
               Everything you need to manage your files efficiently, securely, and collaboratively in one comprehensive platform.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2 + index * 0.1 }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                className="group bg-white dark:bg-surface-800 rounded-2xl p-6 sm:p-8 shadow-card border border-surface-100 dark:border-surface-700 hover:shadow-soft transition-all duration-300"
+                whileHover={{ scale: 1.03, y: -8 }}
+                className="group bg-white/90 backdrop-blur-sm dark:bg-surface-800/90 rounded-3xl p-8 sm:p-10 shadow-card border border-surface-100/50 dark:border-surface-700/50 hover:shadow-soft hover:bg-white dark:hover:bg-surface-800 transition-all duration-300"
               >
-                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:from-primary/20 group-hover:to-secondary/20 transition-all duration-300">
-                  <ApperIcon name={feature.icon} className="w-7 h-7 sm:w-8 sm:h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
+                <div className="w-18 h-18 sm:w-20 sm:h-20 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10 rounded-3xl flex items-center justify-center mb-8 group-hover:from-primary/20 group-hover:via-secondary/10 group-hover:to-accent/20 transition-all duration-300 border border-primary/10 group-hover:border-primary/20">
+                  <ApperIcon name={feature.icon} className="w-9 h-9 sm:w-10 sm:h-10 text-primary group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h4 className="text-lg sm:text-xl font-semibold text-surface-900 dark:text-white mb-3 sm:mb-4">
+                <h4 className="text-xl sm:text-2xl font-bold text-surface-900 dark:text-white mb-4 sm:mb-6">
                   {feature.title}
                 </h4>
-                <p className="text-surface-600 dark:text-surface-400 leading-relaxed">
+                <p className="text-lg text-surface-600 dark:text-surface-400 leading-relaxed font-medium">
                   {feature.description}
                 </p>
               </motion.div>
@@ -207,24 +210,28 @@ const Home = () => {
       </motion.section>
 
       {/* Footer */}
-      <motion.footer 
+      {/* Enhanced Premium Footer */}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
         className="px-4 sm:px-6 lg:px-8 py-8 sm:py-12 border-t border-surface-200 dark:border-surface-700"
-      >
+        className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-surface-200/50 dark:border-surface-700/50 bg-surface-50/50 dark:bg-surface-900/50 backdrop-blur-sm"
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-3 mb-4 sm:mb-6">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-              <ApperIcon name="CloudUpload" className="w-5 h-5 text-white" />
-            </div>
+          <motion.div 
+            className="flex items-center justify-center gap-4 mb-6 sm:mb-8"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="w-12 h-12 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl flex items-center justify-center shadow-soft border border-white/20">
+              <ApperIcon name="CloudUpload" className="w-7 h-7 text-white" />
             <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              DropVault
-            </span>
+            <span className="text-2xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              DropMe
           </div>
-          <p className="text-surface-600 dark:text-surface-400 text-sm sm:text-base">
-            © 2024 DropVault. Secure file management made simple.
-          </p>
+          </motion.div>
+          <p className="text-surface-600 dark:text-surface-400 text-base sm:text-lg font-medium">
+            © 2024 DropMe. Premium file management made beautiful and simple.
         </div>
       </motion.footer>
     </div>

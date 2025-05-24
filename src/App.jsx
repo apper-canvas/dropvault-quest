@@ -6,7 +6,7 @@ import NotFound from './pages/NotFound'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-surface-900 dark:via-surface-800 dark:to-surface-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/20 dark:from-surface-900 dark:via-indigo-950/20 dark:to-purple-950/10">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
@@ -23,9 +23,9 @@ function App() {
         draggable
         pauseOnHover
         theme="light"
-        className="mt-16"
-        toastClassName="rounded-xl shadow-card"
-        bodyClassName="text-sm font-medium"
+        className="mt-16 !important"
+        toastClassName="!rounded-2xl !shadow-soft !border !border-surface-100"
+        bodyClassName="!text-sm !font-medium !text-surface-700"
         progressClassName="bg-primary"
       />
     </div>

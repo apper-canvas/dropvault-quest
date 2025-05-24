@@ -228,11 +228,10 @@ const Home = () => {
             <span className="text-2xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               DropMe
             </span>
-          </div>
           </motion.div>
           <p className="text-surface-600 dark:text-surface-400 text-base sm:text-lg font-medium">
-          </p>
             © 2024 DropMe. Premium file management made beautiful and simple.
+          </p>
         </div>
       </motion.footer>
     </div>

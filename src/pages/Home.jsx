@@ -210,14 +210,13 @@ const Home = () => {
       </motion.section>
 
       {/* Footer */}
-      {/* Enhanced Premium Footer */}
+      <motion.footer
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
-        className="px-4 sm:px-6 lg:px-8 py-8 sm:py-12 border-t border-surface-200 dark:border-surface-700"
         className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-surface-200/50 dark:border-surface-700/50 bg-surface-50/50 dark:bg-surface-900/50 backdrop-blur-sm"
+      >
         <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-3 mb-4 sm:mb-6">
           <motion.div 
             className="flex items-center justify-center gap-4 mb-6 sm:mb-8"
             whileHover={{ scale: 1.05 }}
@@ -225,12 +224,14 @@ const Home = () => {
           >
             <div className="w-12 h-12 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl flex items-center justify-center shadow-soft border border-white/20">
               <ApperIcon name="CloudUpload" className="w-7 h-7 text-white" />
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            </div>
             <span className="text-2xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               DropMe
+            </span>
           </div>
           </motion.div>
           <p className="text-surface-600 dark:text-surface-400 text-base sm:text-lg font-medium">
+          </p>
             © 2024 DropMe. Premium file management made beautiful and simple.
         </div>
       </motion.footer>

@@ -7,6 +7,10 @@ import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
 import ContactUs from './pages/ContactUs'
 
+import Pricing from './pages/Pricing'
+import Docs from './pages/Docs'
+import DocsApi from './pages/DocsApi'
+
 function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/20 dark:from-surface-900 dark:via-indigo-950/20 dark:to-purple-950/10">
@@ -17,6 +21,10 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/docs" element={<Docs />} />
+        <Route path="/docs/api" element={<DocsApi />} />
+
       
       <ToastContainer
         position="top-right"

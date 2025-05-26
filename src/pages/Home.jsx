@@ -401,21 +401,20 @@ const Home = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                  <Link to="/pricing" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
                     Pricing
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                  <Link to="/docs" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
                     Documentation
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                  <Link to="/docs/api" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
                     API
-                  </a>
+                  </Link>
                 </li>
-              </ul>
             </motion.div>
 
             {/* Legal */}

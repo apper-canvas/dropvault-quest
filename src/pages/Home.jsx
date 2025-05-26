@@ -39,6 +39,26 @@ const Home = () => {
       icon: "Share2",
       title: "Secure Sharing",
       description: "Share files with customizable permissions and expiry dates. Full control over your content"
+    },
+    {
+      icon: "Users",
+      title: "Real-time Collaboration",
+      description: "Work together seamlessly with team members, real-time editing, and instant file synchronization"
+    },
+    {
+      icon: "GitBranch",
+      title: "Version Control",
+      description: "Automatic version tracking for all files. Never lose important changes with complete revision history"
+    },
+    {
+      icon: "Layers",
+      title: "Bulk Operations",
+      description: "Perform actions on multiple files at once. Batch upload, download, move, and organize efficiently"
+    },
+    {
+      icon: "Shield",
+      title: "Enterprise Security",
+      description: "Bank-level encryption, compliance certifications, and advanced security controls for peace of mind"
     }
   ]
 

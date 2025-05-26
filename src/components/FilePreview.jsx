@@ -1,133 +1,355 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
+import { Document, Page, pdfjs } from 'react-pdf'
+import mammoth from 'mammoth'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { saveAs } from 'file-saver'
 import ApperIcon from './ApperIcon'
-import { getFileIcon, getFileColor, formatFileSize, isImageFile, isVideoFile, isAudioFile, isTextFile } from '../utils/fileUtils'
+import { 
+  getFileIcon, 
+  getFileColor, 
+  formatFileSize, 
+  isImageFile, 
+  isVideoFile, 
+  isAudioFile, 
+  isPDFFile,
+  isDocumentFile,
+  isCodeFile,
+  isTextFile,
+  getLanguageFromExtension,
+  canPreviewFile,
+  getPreviewType
+} from '../utils/fileUtils'
+import { toast } from 'react-toastify'
+
+// Set up PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
 
 const FilePreview = ({ file, onClose, onDownload }) => {
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(null)
+  const [documentContent, setDocumentContent] = useState('')
+  const [textContent, setTextContent] = useState('')
+  const [numPages, setNumPages] = useState(null)
+  const [pageNumber, setPageNumber] = useState(1)
+
+
+  const previewType = getPreviewType(file.type, file.name)
+
+  // Load document content for DOC files
+  const loadDocumentContent = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch(file.url)
+      const arrayBuffer = await response.arrayBuffer()
+      const result = await mammoth.convertToHtml({ arrayBuffer })
+      setDocumentContent(result.value)
+      setLoading(false)
+    } catch (err) {
+      console.error('Error loading document:', err)
+      setError('Failed to load document content')
+      setLoading(false)
+      toast.error('Failed to load document preview')
+    }
+  }
+
+  // Load text content for text/code files
+  const loadTextContent = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch(file.url)
+      const text = await response.text()
+      setTextContent(text)
+      setLoading(false)
+    } catch (err) {
+      console.error('Error loading text:', err)
+      setError('Failed to load text content')
+      setLoading(false)
+      toast.error('Failed to load file content')
+    }
+  }
+
+  // PDF loading handlers
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages)
+    setLoading(false)
+    toast.success('PDF loaded successfully')
+  }
+
+  const onDocumentLoadError = (error) => {
+    console.error('Error loading PDF:', error)
+    setError('Failed to load PDF')
+    setLoading(false)
+    toast.error('Failed to load PDF preview')
+  }
 
   const renderPreview = () => {
-    if (isImageFile(file.type)) {
+    if (error) {
       return (
-        <div className="max-w-4xl max-h-[70vh] mx-auto">
-          <img
-            src={file.url}
-            alt={file.name}
-            className="w-full h-full object-contain rounded-xl"
-            onLoad={() => setLoading(false)}
-            onError={() => {
-              setError(true)
-              setLoading(false)
-            }}
-          />
-        </div>
-      )
-    }
-
-    if (isVideoFile(file.type)) {
-      return (
-        <div className="max-w-4xl max-h-[70vh] mx-auto">
-          <video
-            controls
-            className="w-full h-full rounded-xl"
-            onLoadedData={() => setLoading(false)}
-            onError={() => {
-              setError(true)
-              setLoading(false)
-            }}
+        <div className="preview-error">
+          <ApperIcon name="AlertCircle" className="w-16 h-16 text-red-500 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-surface-900 dark:text-white mb-2">Preview Error</h3>
+          <p className="text-surface-600 dark:text-surface-400">{error}</p>
+          <button 
+            onClick={() => downloadFile(file)}
+            className="mt-4 btn-primary inline-flex items-center gap-2"
           >
-            <source src={file.url} type={file.type} />
-            Your browser does not support the video tag.
-          </video>
+            <ApperIcon name="Download" className="w-4 h-4" />
+            Download File
+          </button>
         </div>
       )
     }
 
-    if (isAudioFile(file.type)) {
-      return (
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
-            <ApperIcon name="Music" className="w-16 h-16 text-primary" />
+    switch (previewType) {
+      case 'image':
+        return (
+          <div className="max-w-4xl max-h-[70vh] mx-auto">
+            <img
+              src={file.url}
+              alt={file.name}
+              className="w-full h-full object-contain rounded-xl shadow-soft"
+              onLoad={() => {
+                setLoading(false)
+                toast.success('Image loaded successfully')
+              }}
+              onError={() => {
+                setError('Failed to load image')
+                setLoading(false)
+                toast.error('Failed to load image preview')
+              }}
+            />
           </div>
-          <audio
-            controls
-            className="w-full mb-4"
-            onLoadedData={() => setLoading(false)}
-            onError={() => {
-              setError(true)
-              setLoading(false)
-            }}
-          >
-            <source src={file.url} type={file.type} />
-            Your browser does not support the audio tag.
-          </audio>
-        </div>
-      )
-    }
+        )
 
-    if (isTextFile(file.type, file.name)) {
-      return (
-        <div className="max-w-4xl max-h-[70vh] mx-auto">
-          <div className="bg-surface-50 dark:bg-surface-900 rounded-xl p-6 h-full overflow-auto">
-            <pre className="text-sm text-surface-900 dark:text-white whitespace-pre-wrap font-mono">
-              {/* Note: In a real implementation, you'd read the file content */}
-              File content preview would be displayed here.
-              File: {file.name}
-              Type: {file.type}
-              Size: {formatFileSize(file.size)}
-            </pre>
+      case 'video':
+        return (
+          <div className="max-w-4xl max-h-[70vh] mx-auto">
+            <video
+              controls
+              className="w-full h-full rounded-xl media-player"
+              onLoadedData={() => {
+                setLoading(false)
+                toast.success('Video loaded successfully')
+              }}
+              onError={() => {
+                setError('Failed to load video')
+                setLoading(false)
+                toast.error('Failed to load video preview')
+              }}
+            >
+              <source src={file.url} type={file.type} />
+              Your browser does not support the video tag.
+            </video>
           </div>
-        </div>
-      )
-    }
+        )
 
-    // Default preview for other file types
-    return (
-      <div className="max-w-2xl mx-auto text-center">
-        <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
-          <ApperIcon name={getFileIcon(file.type)} className={`w-16 h-16 ${getFileColor(file.type)}`} />
-        </div>
-        <h3 className="text-xl font-semibold text-surface-900 dark:text-white mb-4">
-          {file.name}
-        </h3>
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div className="bg-surface-50 dark:bg-surface-800 rounded-xl p-4">
-            <div className="text-surface-600 dark:text-surface-400 mb-1">File Size</div>
-            <div className="font-semibold text-surface-900 dark:text-white">{formatFileSize(file.size)}</div>
+      case 'audio':
+        return (
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
+              <ApperIcon name="Music" className="w-16 h-16 text-primary" />
+            </div>
+            <h3 className="text-xl font-semibold text-surface-900 dark:text-white mb-4">
+              {file.name}
+            </h3>
+            <audio
+              controls
+              className="w-full mb-4 media-player"
+              onLoadedData={() => {
+                setLoading(false)
+                toast.success('Audio loaded successfully')
+              }}
+              onError={() => {
+                setError('Failed to load audio')
+                setLoading(false)
+                toast.error('Failed to load audio preview')
+              }}
+            >
+              <source src={file.url} type={file.type} />
+              Your browser does not support the audio tag.
+            </audio>
           </div>
-          <div className="bg-surface-50 dark:bg-surface-800 rounded-xl p-4">
-            <div className="text-surface-600 dark:text-surface-400 mb-1">File Type</div>
-            <div className="font-semibold text-surface-900 dark:text-white">{file.type}</div>
+        )
+
+      case 'pdf':
+        return (
+          <div className="max-w-4xl mx-auto">
+            <div className="pdf-viewer">
+              <Document
+                file={file.url}
+                onLoadSuccess={onDocumentLoadSuccess}
+                onLoadError={onDocumentLoadError}
+                loading={
+                  <div className="preview-loading">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                    <span className="ml-3 text-surface-600 dark:text-surface-400">Loading PDF...</span>
+                  </div>
+                }
+              >
+                <Page 
+                  pageNumber={pageNumber} 
+                  className="pdf-page"
+                  width={Math.min(800, window.innerWidth - 100)}
+                />
+              </Document>
+              
+              {numPages && numPages > 1 && (
+                <div className="pdf-navigation mt-4">
+                  <button
+                    onClick={() => setPageNumber(Math.max(1, pageNumber - 1))}
+                    disabled={pageNumber <= 1}
+                    className="p-2 bg-surface-100 dark:bg-surface-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-surface-200 dark:hover:bg-surface-600 transition-colors"
+                  >
+                    <ApperIcon name="ChevronLeft" className="w-4 h-4" />
+                  </button>
+                  <span className="text-sm text-surface-600 dark:text-surface-400">
+                    Page {pageNumber} of {numPages}
+                  </span>
+                  <button
+                    onClick={() => setPageNumber(Math.min(numPages, pageNumber + 1))}
+                    disabled={pageNumber >= numPages}
+                    className="p-2 bg-surface-100 dark:bg-surface-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-surface-200 dark:hover:bg-surface-600 transition-colors"
+                  >
+                    <ApperIcon name="ChevronRight" className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="bg-surface-50 dark:bg-surface-800 rounded-xl p-4">
-            <div className="text-surface-600 dark:text-surface-400 mb-1">Upload Date</div>
-            <div className="font-semibold text-surface-900 dark:text-white">{format(file.uploadDate, 'MMM dd, yyyy')}</div>
+        )
+
+      case 'document':
+        return (
+          <div className="max-w-4xl mx-auto">
+            <div className="document-viewer">
+              {documentContent ? (
+                <div dangerouslySetInnerHTML={{ __html: documentContent }} />
+              ) : (
+                <div className="text-center py-8">
+                  <ApperIcon name="FileText" className="w-16 h-16 text-primary mx-auto mb-4" />
+                  <p className="text-surface-600 dark:text-surface-400">Document preview not available</p>
+                  <button 
+                    onClick={() => downloadFile(file)}
+                    className="mt-4 btn-primary inline-flex items-center gap-2"
+                  >
+                    <ApperIcon name="Download" className="w-4 h-4" />
+                    Download to View
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="bg-surface-50 dark:bg-surface-800 rounded-xl p-4">
-            <div className="text-surface-600 dark:text-surface-400 mb-1">Status</div>
-            <div className="font-semibold text-emerald-600 dark:text-emerald-400">Uploaded</div>
+        )
+
+      case 'code':
+      case 'text':
+        return (
+          <div className="max-w-4xl mx-auto">
+            <div className="code-viewer">
+              {textContent ? (
+                <SyntaxHighlighter
+                  language={getLanguageFromExtension(file.name)}
+                  style={oneDark}
+                  showLineNumbers
+                  wrapLines
+                  customStyle={{
+                    margin: 0,
+                    maxHeight: '70vh',
+                    fontSize: '14px'
+                  }}
+                >
+                  {textContent}
+                </SyntaxHighlighter>
+              ) : (
+                <div className="text-center py-8">
+                  <ApperIcon name="Code" className="w-16 h-16 text-primary mx-auto mb-4" />
+                  <p className="text-surface-600 dark:text-surface-400">Text content preview not available</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </div>
-    )
+        )
+
+      default:
+        return (
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
+              <ApperIcon name={getFileIcon(file.type)} className={`w-16 h-16 ${getFileColor(file.type)}`} />
+            </div>
+            <h3 className="text-xl font-semibold text-surface-900 dark:text-white mb-4">
+              {file.name}
+            </h3>
+            <p className="text-surface-600 dark:text-surface-400 mb-6">
+              {canPreviewFile(file.type, file.name) 
+                ? 'Preview is loading...' 
+                : 'This file type cannot be previewed in the browser.'}
+            </p>
+            <div className="preview-metadata">
+              <div className="metadata-item">
+                <div className="metadata-label">File Size</div>
+                <div className="metadata-value">{formatFileSize(file.size)}</div>
+              </div>
+              <div className="metadata-item">
+                <div className="metadata-label">File Type</div>
+                <div className="metadata-value">{file.type}</div>
+              </div>
+              <div className="metadata-item">
+                <div className="metadata-label">Upload Date</div>
+                <div className="metadata-value">{format(file.uploadDate, 'MMM dd, yyyy')}</div>
+              </div>
+            </div>
+            <button 
+              onClick={() => downloadFile(file)}
+              className="mt-6 btn-primary inline-flex items-center gap-2"
+            >
+              <ApperIcon name="Download" className="w-4 h-4" />
+              Download File
+            </button>
+          </div>
+        )
+    }
   }
+
+  // Download file function
+  const downloadFile = async (file) => {
+    try {
+      const response = await fetch(file.url)
+      const blob = await response.blob()
+      saveAs(blob, file.name)
+      toast.success(`${file.name} downloaded successfully`)
+    } catch (error) {
+      console.error('Download error:', error)
+      toast.error('Failed to download file')
+    }
+  }
+
 
   // Keyboard navigation for preview
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'Escape') {
       onClose()
     }
-  }, [])
-
+  // Load content based on file type
   useEffect(() => {
     setLoading(true)
-    setError(false)
-    // Simulate loading for non-media files
-    if (!isImageFile(file.type) && !isVideoFile(file.type) && !isAudioFile(file.type)) {
+    setError(null)
+    setDocumentContent('')
+    setTextContent('')
+    setPageNumber(1)
+    setNumPages(null)
+    
+    if (isDocumentFile(file.type, file.name)) {
+      loadDocumentContent()
+    } else if (isCodeFile(file.type, file.name) || isTextFile(file.type, file.name)) {
+      loadTextContent()
+    } else if (!isImageFile(file.type) && !isVideoFile(file.type) && !isAudioFile(file.type) && !isPDFFile(file.type)) {
+      // For other file types, stop loading after a brief delay
       setTimeout(() => setLoading(false), 500)
     }
+    // For images, videos, audio, and PDFs, loading is handled by their respective components
   }, [file])
 
   // Add keyboard event listener
@@ -135,6 +357,7 @@ const FilePreview = ({ file, onClose, onDownload }) => {
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
+
 
   return (
     <AnimatePresence>
@@ -190,21 +413,22 @@ const FilePreview = ({ file, onClose, onDownload }) => {
           {/* Content */}
           <div className="p-6">
             {loading && (
-              <div className="flex items-center justify-center py-12">
+              <div className="preview-loading">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                 <span className="ml-3 text-surface-600 dark:text-surface-400">Loading preview...</span>
               </div>
             )}
             
-            {error && (
-              <div className="text-center py-12">
-                <ApperIcon name="AlertCircle" className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-surface-900 dark:text-white mb-2">Preview Error</h3>
-                <p className="text-surface-600 dark:text-surface-400">Unable to load preview for this file.</p>
-              </div>
-            )}
-            
-            {!loading && !error && renderPreview()}
+            {!loading && renderPreview()}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+export default FilePreview
+
           </div>
         </motion.div>
       </motion.div>

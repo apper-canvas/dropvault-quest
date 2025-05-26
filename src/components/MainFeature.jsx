@@ -749,25 +749,34 @@ const MainFeature = () => {
                       <td className="py-4 px-6 text-sm text-surface-600 dark:text-surface-400">
                         {format(file.uploadDate, 'MMM dd, yyyy')}
                       </td>
-                            <ApperIcon name="Download" className="w-4 h-4" />
-                          </button>
-                          <button className="p-2 text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800">
-                            <ApperIcon name="Share2" className="w-4 h-4" />
-                          </button>
-                          <button className="p-2 text-surface-600 dark:text-surface-400 hover:text-red-500 dark:hover:text-red-400 transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800">
-                            <ApperIcon name="Trash2" className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-
+                      <td className="py-4 px-6">
                         <div className="flex items-center gap-2">
-                          <button className="p-2 text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800">
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => openPreview(file)}
+                            className="p-2 text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800"
+                          >
+                            <ApperIcon name="Eye" className="w-4 h-4" />
+                          </motion.button>
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => downloadFile(file)}
+                            className="p-2 text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800"
+                          >
                             <ApperIcon name="Download" className="w-4 h-4" />
-                          </button>
+                          </motion.button>
                           <button className="p-2 text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800">
                             <ApperIcon name="Share2" className="w-4 h-4" />
                           </button>
-                          <button className="p-2 text-surface-600 dark:text-surface-400 hover:text-red-500 dark:hover:text-red-400 transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800">
+                          <button 
+                            onClick={() => {
+                              setFiles(prev => prev.filter(f => f.id !== file.id))
+                              toast.success(`${file.name} deleted successfully`)
+                            }}
+                            className="p-2 text-surface-600 dark:text-surface-400 hover:text-red-500 dark:hover:text-red-400 transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800"
+                          >
                             <ApperIcon name="Trash2" className="w-4 h-4" />
                           </button>
                         </div>

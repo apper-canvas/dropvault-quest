@@ -415,6 +415,7 @@ const Home = () => {
                     API
                   </Link>
                 </li>
+              </ul>
             </motion.div>
               </ul>
 

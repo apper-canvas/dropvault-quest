@@ -180,7 +180,7 @@ const Status = () => {
                   <div className="text-sm text-surface-600 dark:text-surface-400">Overall Uptime</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary mb-2">< 200ms</div>
+                  <div className="text-3xl font-bold text-primary mb-2">&lt; 200ms</div>
                   <div className="text-sm text-surface-600 dark:text-surface-400">Avg Response Time</div>
                 </div>
                 <div className="text-center">

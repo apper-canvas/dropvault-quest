@@ -14,6 +14,9 @@ const MainFeature = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('name')
   const fileInputRef = useRef(null)
+  const [previewFile, setPreviewFile] = useState(null)
+  const [showPreview, setShowPreview] = useState(false)
+
 
   const getFileIcon = (type) => {
     if (type.startsWith('image/')) return 'Image'
@@ -158,6 +161,237 @@ const MainFeature = () => {
           return 0
       }
     })
+
+  const openPreview = (file) => {
+    setPreviewFile(file)
+    setShowPreview(true)
+    toast.info(`Opening preview for ${file.name}`)
+  }
+
+  const closePreview = () => {
+    setShowPreview(false)
+    setPreviewFile(null)
+  }
+
+  const downloadFile = (file) => {
+    const link = document.createElement('a')
+    link.href = file.url
+    link.download = file.name
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    toast.success(`${file.name} downloaded successfully`)
+  }
+
+  // Keyboard navigation for preview
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Escape' && showPreview) {
+      closePreview()
+    }
+  }, [showPreview])
+
+  // Add keyboard event listener
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [handleKeyDown])
+
+  // File Preview Component
+  const FilePreview = ({ file, onClose, onDownload }) => {
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
+
+    const renderPreview = () => {
+      if (file.type.startsWith('image/')) {
+        return (
+          <div className="max-w-4xl max-h-[70vh] mx-auto">
+            <img
+              src={file.url}
+              alt={file.name}
+              className="w-full h-full object-contain rounded-xl"
+              onLoad={() => setLoading(false)}
+              onError={() => {
+                setError(true)
+                setLoading(false)
+              }}
+            />
+          </div>
+        )
+      }
+
+      if (file.type.startsWith('video/')) {
+        return (
+          <div className="max-w-4xl max-h-[70vh] mx-auto">
+            <video
+              controls
+              className="w-full h-full rounded-xl"
+              onLoadedData={() => setLoading(false)}
+              onError={() => {
+                setError(true)
+                setLoading(false)
+              }}
+            >
+              <source src={file.url} type={file.type} />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        )
+      }
+
+      if (file.type.startsWith('audio/')) {
+        return (
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
+              <ApperIcon name="Music" className="w-16 h-16 text-primary" />
+            </div>
+            <audio
+              controls
+              className="w-full mb-4"
+              onLoadedData={() => setLoading(false)}
+              onError={() => {
+                setError(true)
+                setLoading(false)
+              }}
+            >
+              <source src={file.url} type={file.type} />
+              Your browser does not support the audio tag.
+            </audio>
+          </div>
+        )
+      }
+
+      if (file.type.startsWith('text/') || file.name.endsWith('.txt') || file.name.endsWith('.md')) {
+        return (
+          <div className="max-w-4xl max-h-[70vh] mx-auto">
+            <div className="bg-surface-50 dark:bg-surface-900 rounded-xl p-6 h-full overflow-auto">
+              <pre className="text-sm text-surface-900 dark:text-white whitespace-pre-wrap font-mono">
+                {/* Note: In a real implementation, you'd read the file content */}
+                File content preview would be displayed here.
+                File: {file.name}
+                Type: {file.type}
+                Size: {formatFileSize(file.size)}
+              </pre>
+            </div>
+          </div>
+        )
+      }
+
+      // Default preview for other file types
+      return (
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
+            <ApperIcon name={getFileIcon(file.type)} className={`w-16 h-16 ${getFileColor(file.type)}`} />
+          </div>
+          <h3 className="text-xl font-semibold text-surface-900 dark:text-white mb-4">
+            {file.name}
+          </h3>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="bg-surface-50 dark:bg-surface-800 rounded-xl p-4">
+              <div className="text-surface-600 dark:text-surface-400 mb-1">File Size</div>
+              <div className="font-semibold text-surface-900 dark:text-white">{formatFileSize(file.size)}</div>
+            </div>
+            <div className="bg-surface-50 dark:bg-surface-800 rounded-xl p-4">
+              <div className="text-surface-600 dark:text-surface-400 mb-1">File Type</div>
+              <div className="font-semibold text-surface-900 dark:text-white">{file.type}</div>
+            </div>
+            <div className="bg-surface-50 dark:bg-surface-800 rounded-xl p-4">
+              <div className="text-surface-600 dark:text-surface-400 mb-1">Upload Date</div>
+              <div className="font-semibold text-surface-900 dark:text-white">{format(file.uploadDate, 'MMM dd, yyyy')}</div>
+            </div>
+            <div className="bg-surface-50 dark:bg-surface-800 rounded-xl p-4">
+              <div className="text-surface-600 dark:text-surface-400 mb-1">Status</div>
+              <div className="font-semibold text-emerald-600 dark:text-emerald-400">Uploaded</div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    React.useEffect(() => {
+      setLoading(true)
+      setError(false)
+      // Simulate loading for non-media files
+      if (!file.type.startsWith('image/') && !file.type.startsWith('video/') && !file.type.startsWith('audio/')) {
+        setTimeout(() => setLoading(false), 500)
+      }
+    }, [file])
+
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="bg-white dark:bg-surface-800 rounded-3xl shadow-2xl border border-surface-200 dark:border-surface-700 max-w-6xl w-full max-h-[90vh] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-surface-200 dark:border-surface-700">
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${getFileColor(file.type)} bg-current/10`}>
+                  <ApperIcon name={getFileIcon(file.type)} className={`w-5 h-5 ${getFileColor(file.type)}`} />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-surface-900 dark:text-white truncate max-w-md">
+                    {file.name}
+                  </h2>
+                  <p className="text-sm text-surface-600 dark:text-surface-400">
+                    {formatFileSize(file.size)} • {format(file.uploadDate, 'MMM dd, yyyy')}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => onDownload(file)}
+                  className="p-2 text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors rounded-xl hover:bg-surface-100 dark:hover:bg-surface-700"
+                >
+                  <ApperIcon name="Download" className="w-5 h-5" />
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onClose}
+                  className="p-2 text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-white transition-colors rounded-xl hover:bg-surface-100 dark:hover:bg-surface-700"
+                >
+                  <ApperIcon name="X" className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              {loading && (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                  <span className="ml-3 text-surface-600 dark:text-surface-400">Loading preview...</span>
+                </div>
+              )}
+              
+              {error && (
+                <div className="text-center py-12">
+                  <ApperIcon name="AlertCircle" className="w-16 h-16 text-red-500 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-surface-900 dark:text-white mb-2">Preview Error</h3>
+                  <p className="text-surface-600 dark:text-surface-400">Unable to load preview for this file.</p>
+                </div>
+              )}
+              
+              {!loading && !error && renderPreview()}
+            </div>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    )
+  }
+
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -432,6 +666,20 @@ const MainFeature = () => {
                         <div>{formatFileSize(file.size)}</div>
                         <div>{format(file.uploadDate, 'MMM dd, yyyy')}</div>
                       </div>
+
+                    {/* Preview button */}
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        openPreview(file)
+                      }}
+                      className="absolute top-3 left-3 z-10 p-2 bg-white/90 dark:bg-surface-800/90 backdrop-blur-sm rounded-xl shadow-soft border border-surface-200/50 dark:border-surface-700/50 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                    >
+                      <ApperIcon name="Eye" className="w-4 h-4 text-primary" />
+                    </motion.button>
+
                     </div>
                   </motion.div>
                 ))}
@@ -501,7 +749,17 @@ const MainFeature = () => {
                       <td className="py-4 px-6 text-sm text-surface-600 dark:text-surface-400">
                         {format(file.uploadDate, 'MMM dd, yyyy')}
                       </td>
-                      <td className="py-4 px-6">
+                            <ApperIcon name="Download" className="w-4 h-4" />
+                          </button>
+                          <button className="p-2 text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800">
+                            <ApperIcon name="Share2" className="w-4 h-4" />
+                          </button>
+                          <button className="p-2 text-surface-600 dark:text-surface-400 hover:text-red-500 dark:hover:text-red-400 transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800">
+                            <ApperIcon name="Trash2" className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+
                         <div className="flex items-center gap-2">
                           <button className="p-2 text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors rounded-lg hover:bg-surface-100 dark:hover:bg-surface-800">
                             <ApperIcon name="Download" className="w-4 h-4" />
@@ -550,6 +808,16 @@ const MainFeature = () => {
             </button>
           </motion.div>
         </motion.div>
+
+      {/* File Preview Modal */}
+      {showPreview && previewFile && (
+        <FilePreview
+          file={previewFile}
+          onClose={closePreview}
+          onDownload={downloadFile}
+        />
+      )}
+
       )}
     </div>
   )

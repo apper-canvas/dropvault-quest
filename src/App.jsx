@@ -20,10 +20,10 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="*" element={<NotFound />} />
-      </Routes>
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/docs" element={<Docs />} />
         <Route path="/docs/api" element={<DocsApi />} />
+      </Routes>
 
       
       <ToastContainer

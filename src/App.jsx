@@ -12,9 +12,11 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/20 dark:from-surface-900 dark:via-indigo-950/20 dark:to-purple-950/10">
       <Routes>
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/" element={<Home />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/contact" element={<ContactUs />} />
       </Routes>
+        <Route path="*" element={<NotFound />} />
       
       <ToastContainer
         position="top-right"

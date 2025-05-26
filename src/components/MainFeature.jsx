@@ -1,4 +1,5 @@
-import { useState, useRef, useCallback } from 'react'
+import React from 'react'
+
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-toastify'
 import { format } from 'date-fns'
@@ -826,7 +827,6 @@ const MainFeature = () => {
         />
       )}
 
-      )}
     </div>
   )
 }

@@ -416,6 +416,7 @@ const Home = () => {
                   </Link>
                 </li>
             </motion.div>
+              </ul>
 
             {/* Legal */}
             <motion.div

@@ -11,6 +11,8 @@ import Pricing from './pages/Pricing'
 import Docs from './pages/Docs'
 import DocsApi from './pages/DocsApi'
 
+import Status from './pages/Status'
+
 function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/20 dark:from-surface-900 dark:via-indigo-950/20 dark:to-purple-950/10">
@@ -19,6 +21,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/contact" element={<ContactUs />} />
+          <Route path="/status" element={<Status />} />
+
         <Route path="*" element={<NotFound />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/docs" element={<Docs />} />

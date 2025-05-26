@@ -469,7 +469,8 @@ const Home = () => {
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                  <span className="text-surface-600 dark:text-surface-400">All systems operational</span>
+                  <Link to="/status" className="text-surface-600 dark:text-surface-400 hover:text-primary transition-colors duration-200">All systems operational</Link>
+
                 </div>
               </div>
             </div>

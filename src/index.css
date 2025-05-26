@@ -246,4 +246,69 @@
   100% {
     background-position: 200% 0;
   }
+
+/* File Preview Styles */
+.preview-loading {
+  @apply flex flex-col items-center justify-center py-12;
+}
+
+.preview-error {
+  @apply text-center py-12;
+}
+
+.preview-metadata {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-4 p-6 bg-surface-50 dark:bg-surface-900 rounded-2xl;
+}
+
+.metadata-item {
+  @apply text-center;
+}
+
+.metadata-label {
+  @apply text-sm font-medium text-surface-500 dark:text-surface-400 mb-1;
+}
+
+.metadata-value {
+  @apply text-lg font-semibold text-surface-900 dark:text-white;
+}
+
+.pdf-viewer {
+  @apply text-center;
+}
+
+.pdf-page {
+  @apply mx-auto shadow-soft rounded-xl overflow-hidden;
+}
+
+.pdf-navigation {
+  @apply flex items-center justify-center gap-4;
+}
+
+.document-viewer {
+  @apply prose prose-lg dark:prose-invert max-w-none;
+}
+
+.document-viewer h1,
+.document-viewer h2,
+.document-viewer h3,
+.document-viewer h4,
+.document-viewer h5,
+.document-viewer h6 {
+  @apply text-surface-900 dark:text-white font-semibold;
+}
+
+.document-viewer p {
+  @apply text-surface-700 dark:text-surface-300 leading-relaxed;
+}
+
+.code-viewer {
+  @apply rounded-xl overflow-hidden shadow-soft;
+}
+
+.media-player {
+  @apply shadow-soft rounded-xl;
+}
+
+.media-player:focus {
+  @apply outline-none ring-4 ring-primary/20;
 }

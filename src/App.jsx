@@ -15,8 +15,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/contact" element={<ContactUs />} />
-      </Routes>
         <Route path="*" element={<NotFound />} />
+      </Routes>
       
       <ToastContainer
         position="top-right"

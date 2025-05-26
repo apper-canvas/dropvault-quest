@@ -209,29 +209,147 @@ const Home = () => {
         </div>
       </motion.section>
 
-      {/* Footer */}
+      {/* Professional Footer */}
       <motion.footer
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
-        className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-surface-200/50 dark:border-surface-700/50 bg-surface-50/50 dark:bg-surface-900/50 backdrop-blur-sm"
+        className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20 border-t border-surface-200/50 dark:border-surface-700/50 bg-surface-50/50 dark:bg-surface-900/50 backdrop-blur-sm"
       >
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-12">
+            {/* Brand Section */}
+            <motion.div 
+              className="lg:col-span-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.5 }}
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl flex items-center justify-center shadow-soft border border-white/20">
+                  <ApperIcon name="CloudUpload" className="w-7 h-7 text-white" />
+                </div>
+                <span className="text-2xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                  DropMe
+                </span>
+              </div>
+              <p className="text-surface-600 dark:text-surface-400 text-base leading-relaxed mb-6 max-w-md">
+                The most intuitive file management platform. Upload, organize, and share your files with enterprise-grade security and lightning-fast performance.
+              </p>
+              <div className="flex items-center gap-4">
+                <motion.a
+                  href="#"
+                  whileHover={{ scale: 1.1 }}
+                  className="w-10 h-10 bg-white dark:bg-surface-800 rounded-xl flex items-center justify-center shadow-card border border-surface-200 dark:border-surface-700 hover:shadow-soft transition-all duration-200"
+                >
+                  <ApperIcon name="Twitter" className="w-5 h-5 text-surface-600 dark:text-surface-400" />
+                </motion.a>
+                <motion.a
+                  href="#"
+                  whileHover={{ scale: 1.1 }}
+                  className="w-10 h-10 bg-white dark:bg-surface-800 rounded-xl flex items-center justify-center shadow-card border border-surface-200 dark:border-surface-700 hover:shadow-soft transition-all duration-200"
+                >
+                  <ApperIcon name="Github" className="w-5 h-5 text-surface-600 dark:text-surface-400" />
+                </motion.a>
+                <motion.a
+                  href="#"
+                  whileHover={{ scale: 1.1 }}
+                  className="w-10 h-10 bg-white dark:bg-surface-800 rounded-xl flex items-center justify-center shadow-card border border-surface-200 dark:border-surface-700 hover:shadow-soft transition-all duration-200"
+                >
+                  <ApperIcon name="Linkedin" className="w-5 h-5 text-surface-600 dark:text-surface-400" />
+                </motion.a>
+              </div>
+            </motion.div>
+
+            {/* Quick Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.6 }}
+            >
+              <h3 className="text-lg font-bold text-surface-900 dark:text-white mb-4">
+                Quick Links
+              </h3>
+              <ul className="space-y-3">
+                <li>
+                  <a href="#" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    Documentation
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    API
+                  </a>
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Legal */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.7 }}
+            >
+              <h3 className="text-lg font-bold text-surface-900 dark:text-white mb-4">
+                Legal & Support
+              </h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link to="/privacy" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/terms" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" className="text-surface-600 dark:text-surface-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    Help Center
+                  </a>
+                </li>
+              </ul>
+            </motion.div>
+          </div>
+
+          {/* Bottom Bar */}
           <motion.div 
-            className="flex items-center justify-center gap-4 mb-6 sm:mb-8"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.8 }}
+            className="pt-8 border-t border-surface-200/50 dark:border-surface-700/50"
           >
-            <div className="w-12 h-12 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl flex items-center justify-center shadow-soft border border-white/20">
-              <ApperIcon name="CloudUpload" className="w-7 h-7 text-white" />
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <p className="text-surface-600 dark:text-surface-400 text-sm">
+                © 2024 DropMe. All rights reserved. Premium file management made beautiful and simple.
+              </p>
+              <div className="flex items-center gap-6 text-sm">
+                <span className="text-surface-600 dark:text-surface-400">
+                  Made with ❤️ for creators
+                </span>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                  <span className="text-surface-600 dark:text-surface-400">All systems operational</span>
+                </div>
+              </div>
             </div>
-            <span className="text-2xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              DropMe
-            </span>
           </motion.div>
-          <p className="text-surface-600 dark:text-surface-400 text-base sm:text-lg font-medium">
-            © 2024 DropMe. Premium file management made beautiful and simple.
-          </p>
         </div>
       </motion.footer>
     </div>

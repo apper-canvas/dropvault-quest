@@ -165,7 +165,6 @@ const MainFeature = () => {
   const openPreview = (file) => {
     setPreviewFile(file)
     setShowPreview(true)
-    toast.info(`Opening preview for ${file.name}`)
   }
 
   const closePreview = () => {

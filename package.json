@@ -3,11 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "vite --force",
+    "build": "vite build --mode production",
+    "build:css": "postcss src/index.css -o dist/index.css",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "npm run build:css"
+
   },
   "dependencies": {
     "react": "^18.2.0",

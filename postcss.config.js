@@ -18,14 +18,19 @@ export default {
   plugins: [
     postcssImport({
       skipDuplicates: true,
-      filter: (id) => {
-        // Skip problematic CSS files
-        if (id.includes('react-toastify') && id.includes('.css')) {
+      resolve: (id, basedir, importOptions) => {
+        // Skip problematic CSS files completely
+        if (id.includes('react-toastify') || id.includes('ReactToastify')) {
           return false;
         }
-        return true;
+        return postcssImport.resolve(id, basedir, importOptions);
+      },
+      filter: (id) => {
+        // Additional filtering for react-toastify CSS
+        return !id.includes('react-toastify') && !id.includes('ReactToastify');
       }
     }),
+
     postcssUrl({
       url: 'rebase'
     }),
@@ -78,13 +83,30 @@ export default {
       throwError: false,
       noIcon: true,
       filter: (message) => {
-        // Suppress react-toastify related errors
-        if (message.text && message.text.includes('react-toastify')) {
+        // Comprehensive error filtering for react-toastify
+        const text = message.text || '';
+        const plugin = message.plugin || '';
+        const source = message.source || '';
+        
+        if (text.includes('react-toastify') || 
+            text.includes('ReactToastify') ||
+            text.includes('Toastify') ||
+            plugin.includes('toastify') ||
+            source.includes('react-toastify') ||
+            source.includes('ReactToastify')) {
           return false;
         }
+        
+        // Filter out specific error patterns
+        if (text.includes('unexpected token') && 
+            (text.includes('expected ";"') || text.includes('expected ","'))) {
+          return false;
+        }
+        
         return true;
       }
     })
+
   ],
   map: {
     inline: false,

@@ -20,6 +20,7 @@ import {
   getLanguageFromExtension,
   canPreviewFile,
   getPreviewType
+} from '../utils/fileUtils'
 
 import { toast } from 'react-toastify'
 

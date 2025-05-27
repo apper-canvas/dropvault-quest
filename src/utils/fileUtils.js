@@ -9,15 +9,6 @@ export const getFileIcon = (type) => {
   return 'File'
 }
 
-export const getFileColor = (type) => {
-  if (type.startsWith('image/')) return 'text-green-500'
-
-export const isTextFile = (type, name) => {
-  if (type.startsWith('text/')) return true
-  const textExtensions = ['.txt', '.md', '.rtf']
-  return textExtensions.some(ext => name.toLowerCase().endsWith(ext))
-}
-
   if (type.startsWith('video/')) return 'text-purple-500'
   if (type.startsWith('audio/')) return 'text-orange-500'
   if (type.includes('pdf')) return 'text-red-500'
@@ -26,6 +17,7 @@ export const isTextFile = (type, name) => {
   if (type.includes('zip') || type.includes('rar')) return 'text-yellow-600'
   return 'text-surface-500'
 }
+
 
 export const formatFileSize = (bytes) => {
   if (bytes === 0) return '0 Bytes'
@@ -46,9 +38,6 @@ export const isVideoFile = (type) => {
 export const isAudioFile = (type) => {
   return type.startsWith('audio/')
 }
-
-export const isTextFile = (type, name) => {
-  return type.startsWith('text/') || name.endsWith('.txt') || name.endsWith('.md')
 
 export const isPDFFile = (type) => {
   return type.includes('pdf')
@@ -113,6 +102,3 @@ export const getLanguageFromExtension = (filename) => {
     'md': 'markdown'
   }
   return languageMap[ext] || 'text'
-}
-
-}

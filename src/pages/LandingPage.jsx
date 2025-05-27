@@ -1,12 +1,10 @@
 import { motion } from 'framer-motion'
 
-import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../App'
 
 import ApperIcon from '../components/ApperIcon'
 
-const LandingPage = () => {
 const LandingPage = () => {
   const { darkMode, toggleTheme } = useTheme()
 
@@ -91,7 +89,6 @@ const LandingPage = () => {
             <motion.button
               onClick={toggleTheme}
 
-              onClick={toggleDarkMode}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               className="p-2 sm:p-3 rounded-xl bg-white dark:bg-surface-800 shadow-card border border-surface-200 dark:border-surface-700 hover:shadow-soft transition-all duration-200"

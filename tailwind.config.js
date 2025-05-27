@@ -38,7 +38,7 @@ export default {
           error: '#fee2e2'
         }
       },
-      },
+
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui'],
         heading: ['Inter', 'ui-sans-serif', 'system-ui']

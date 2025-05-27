@@ -164,9 +164,10 @@ export default {
       backdropBlur: {
         'xs': '2px',
         '4xl': '72px'
+      },
       transitionDuration: {
         '400': '400ms'
-      },
+      }
 
       },
       animation: {

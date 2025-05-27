@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { useState, useEffect, createContext, useContext } from 'react'
+
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home'
@@ -15,9 +16,58 @@ import DocsApi from './pages/DocsApi'
 
 import Status from './pages/Status'
 
+// Theme Context
+const ThemeContext = createContext()
+
+export const useTheme = () => {
+  const context = useContext(ThemeContext)
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider')
+  }
+  return context
+}
+
+const ThemeProvider = ({ children }) => {
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode')
+    return saved ? JSON.parse(saved) : false
+  })
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode))
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [darkMode])
+
+  const toggleTheme = () => {
+    setDarkMode(prev => !prev)
+  }
+
+  return (
+    <ThemeContext.Provider value={{ darkMode, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+
+
+
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-surface-0 via-primary-50/30 to-secondary-50/20 relative overflow-hidden">
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  )
+}
+
+function AppContent() {
+  const { darkMode } = useTheme()
+
+    <div className={`min-h-screen transition-all duration-300 ${darkMode ? 'dark' : ''} bg-gradient-to-br from-surface-0 via-primary-50/30 to-secondary-50/20 dark:from-surface-950 dark:via-surface-900 dark:to-surface-800 relative overflow-hidden`}>
+
       {/* Ambient Background Effects */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-primary-300/20 to-transparent rounded-full blur-3xl animate-float"></div>
@@ -58,7 +108,8 @@ function App() {
         progressClassName="bg-primary"
       />
     </div>
-  )
+}
+
 }
 
 export default App

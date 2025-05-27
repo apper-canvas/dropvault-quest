@@ -58,6 +58,15 @@
     --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     --shadow-glow: 0 0 0 1px rgba(168, 85, 247, 0.05), 0 4px 16px rgba(168, 85, 247, 0.12);
     --gradient-premium: linear-gradient(135deg, rgba(168, 85, 247, 0.02) 0%, rgba(217, 70, 239, 0.02) 50%, rgba(245, 112, 255, 0.02) 100%);
+  
+  /* Dark mode custom properties */
+  .dark {
+    --color-surface: 15 23 42;
+    --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    --shadow-glow: 0 0 0 1px rgba(168, 85, 247, 0.1), 0 4px 16px rgba(168, 85, 247, 0.25);
+    --gradient-premium: linear-gradient(135deg, rgba(168, 85, 247, 0.05) 0%, rgba(217, 70, 239, 0.05) 50%, rgba(245, 112, 255, 0.05) 100%);
+  }
+
   }
   
   * {
@@ -98,6 +107,19 @@
     outline: 2px solid rgb(168, 85, 247);
     outline-offset: 2px;
   }
+  
+  /* Dark mode focus styles */
+  .dark :focus-visible {
+    outline: 2px solid rgb(168, 85, 247);
+    outline-offset: 2px;
+  }
+  
+  /* Dark mode selection */
+  .dark ::selection {
+    background-color: rgba(168, 85, 247, 0.3);
+    color: rgb(255, 255, 255);
+  }
+
 }
 
 @layer utilities {
@@ -250,6 +272,24 @@
   .hover-glow:hover {
     box-shadow: var(--shadow-glow);
   }
+  
+  /* Dark mode scrollbar */
+  .dark .scrollbar-premium {
+    scrollbar-color: rgba(168, 85, 247, 0.5) rgba(30, 41, 59, 0.3);
+  }
+  
+  .dark .scrollbar-premium::-webkit-scrollbar-track {
+    background: rgba(30, 41, 59, 0.3);
+  }
+  
+  .dark .scrollbar-premium::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.5), rgba(217, 70, 239, 0.5));
+  }
+  
+  .dark .scrollbar-premium::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(217, 70, 239, 0.7));
+  }
+
 }
 
 @layer components {
@@ -400,6 +440,28 @@
   .badge-error {
     @apply bg-red-100 text-red-800 border-red-200/50;
   }
+  
+  /* Dark mode badges */
+  .dark .badge {
+    @apply bg-surface-800 text-surface-300 border-surface-700;
+  }
+  
+  .dark .badge-primary {
+    @apply bg-primary-900/50 text-primary-300 border-primary-700/50;
+  }
+  
+  .dark .badge-success {
+    @apply bg-emerald-900/50 text-emerald-300 border-emerald-700/50;
+  }
+  
+  .dark .badge-warning {
+    @apply bg-amber-900/50 text-amber-300 border-amber-700/50;
+  }
+  
+  .dark .badge-error {
+    @apply bg-red-900/50 text-red-300 border-red-700/50;
+  }
+
 }
 
 /* Custom Premium Scrollbar */
@@ -427,6 +489,24 @@
   background: linear-gradient(135deg, 
     rgba(168, 85, 247, 0.3), 
     rgba(217, 70, 239, 0.3));
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, 
+    rgba(168, 85, 247, 0.3), 
+    rgba(217, 70, 239, 0.3));
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, 
+    rgba(168, 85, 247, 0.5), 
+    rgba(217, 70, 239, 0.5));
+}
+
 }
 
 /* Enhanced File Type Colors */
@@ -582,6 +662,32 @@
     font-size: 12pt;
     line-height: 1.5;
   }
+
+/* Enhanced Theme Transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Smooth theme switching */
+.theme-transition {
+  transition: all 0.3s ease !important;
+}
+
+/* Theme-aware components */
+.theme-aware {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.theme-aware.dark {
+  @apply bg-surface-900 text-surface-100;
+}
+
+.theme-aware:not(.dark) {
+  @apply bg-white text-surface-900;
+}
+
 }
 
 /* Enhanced Toast Notification System - Complete Override */

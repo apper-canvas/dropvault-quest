@@ -1,15 +1,15 @@
-import { useState } from 'react'
+import { motion } from 'framer-motion'
+
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useTheme } from '../App'
+
 import ApperIcon from '../components/ApperIcon'
 
 const LandingPage = () => {
-  const [darkMode, setDarkMode] = useState(false)
+const LandingPage = () => {
+  const { darkMode, toggleTheme } = useTheme()
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
-    document.documentElement.classList.toggle('dark')
-  }
 
   const stats = [
     { label: "Files Processed", value: "2.5M+", icon: "FileText" },
@@ -62,7 +62,8 @@ const LandingPage = () => {
   ]
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
+    <div className="min-h-screen transition-colors duration-300">
+
       {/* Header */}
       <motion.header 
         initial={{ opacity: 0, y: -20 }}
@@ -88,6 +89,8 @@ const LandingPage = () => {
 
           <div className="flex items-center gap-3 sm:gap-4">
             <motion.button
+              onClick={toggleTheme}
+
               onClick={toggleDarkMode}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}

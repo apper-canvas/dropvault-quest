@@ -95,6 +95,20 @@ export default {
           600: '#2563eb',
           700: '#1d4ed8'
         }
+        dark: {
+          50: '#0f172a',
+          100: '#1e293b',
+          200: '#334155',
+          300: '#475569',
+          400: '#64748b',
+          500: '#94a3b8',
+          600: '#cbd5e1',
+          700: '#e2e8f0',
+          800: '#f1f5f9',
+          900: '#f8fafc',
+          950: '#ffffff'
+        },
+
       },
       fontFamily: {
         sans: [
@@ -168,11 +182,46 @@ export default {
       transitionDuration: {
         '400': '400ms'
       }
-    }
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'shimmer': 'shimmer 3s linear infinite',
+        'glow': 'glow 2s ease-in-out infinite alternate'
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' }
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' }
+        },
+        glow: {
+          '0%': { boxShadow: '0 0 20px rgba(168, 85, 247, 0.1)' },
+          '100%': { boxShadow: '0 0 30px rgba(168, 85, 247, 0.2)' }
+        }
+      }
+
   },
   plugins: [
     require('@tailwindcss/typography'),
     function({ addUtilities }) {
+    function({ addUtilities, theme }) {
+      const themeUtilities = {
+        '.theme-transition': {
+          transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease'
+        },
+        '.dark-shadow': {
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2)'
+        },
+        '.light-shadow': {
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+        }
+      }
+      addUtilities(themeUtilities)
+    },
+
       const newUtilities = {
         '.glass': {
           background: 'rgba(255, 255, 255, 0.05)',

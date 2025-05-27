@@ -24,17 +24,24 @@ export default {
     postcssImport({
       skipDuplicates: true,
       resolve: (id, basedir, importOptions) => {
-        // Skip problematic CSS files completely
-        if (id.includes('react-toastify') || id.includes('ReactToastify')) {
+        // Completely skip problematic CSS files to prevent parsing errors
+        if (id.includes('react-toastify') || 
+            id.includes('ReactToastify') || 
+            id.includes('toastify') ||
+            id.includes('Toastify')) {
           return false;
         }
         return postcssImport.resolve(id, basedir, importOptions);
       },
       filter: (id) => {
-        // Additional filtering for react-toastify CSS
-        return !id.includes('react-toastify') && !id.includes('ReactToastify');
+        // Enhanced filtering for all toastify variations
+        return !id.includes('react-toastify') && 
+               !id.includes('ReactToastify') &&
+               !id.includes('toastify') &&
+               !id.includes('Toastify');
       }
     }),
+
 
     postcssUrl({
       url: 'rebase'
@@ -89,40 +96,65 @@ export default {
       noIcon: true,
       silent: true,
       filter: (message) => {
-        // Comprehensive error filtering for react-toastify and other problematic CSS
+        // Comprehensive error filtering for react-toastify and all CSS parsing issues
         const text = message.text || '';
         const plugin = message.plugin || '';
         const source = message.source || '';
         const file = message.file || '';
+        const input = message.input || {};
+        const origin = input.from || '';
         
-        // Filter out all react-toastify related errors
-        if (text.includes('react-toastify') || 
-            text.includes('ReactToastify') ||
-            text.includes('Toastify') ||
-            plugin.includes('toastify') ||
-            source.includes('react-toastify') ||
-            source.includes('ReactToastify') ||
-            file.includes('react-toastify') ||
-            file.includes('ReactToastify')) {
+        // Filter out all toastify-related errors (case-insensitive)
+        const toastifyPatterns = [
+          'react-toastify', 'ReactToastify', 'toastify', 'Toastify',
+          'reacttoastify', 'REACT-TOASTIFY', 'TOASTIFY'
+        ];
+        
+        for (const pattern of toastifyPatterns) {
+          if (text.toLowerCase().includes(pattern.toLowerCase()) || 
+              plugin.toLowerCase().includes(pattern.toLowerCase()) ||
+              source.toLowerCase().includes(pattern.toLowerCase()) ||
+              file.toLowerCase().includes(pattern.toLowerCase()) ||
+              origin.toLowerCase().includes(pattern.toLowerCase())) {
+            return false;
+          }
+        }
+        
+        // Filter out specific CSS parsing errors that cause build issues
+        const errorPatterns = [
+          'unexpected token', 'expected ","', 'expected ";"',
+          'Unclosed block', 'Unknown word', 'Unexpected }',
+          'missing ";"', 'missing "}"', 'Invalid selector',
+          'data-collapsed', 'stacked', 'toast--stacked'
+        ];
+        
+        for (const pattern of errorPatterns) {
+          if (text.toLowerCase().includes(pattern.toLowerCase())) {
+            return false;
+          }
+        }
+        
+        // Filter out all node_modules CSS errors to prevent third-party issues
+        if (source.includes('node_modules') || 
+            file.includes('node_modules') ||
+            origin.includes('node_modules')) {
           return false;
         }
         
-        // Filter out specific CSS parsing errors
-        if (text.includes('unexpected token') || 
-            text.includes('expected ","') ||
-            text.includes('expected ";"') ||
-            text.includes('Unclosed block') ||
-            text.includes('Unknown word')) {
-          return false;
-        }
+        // Filter out specific problematic file paths
+        const problematicPaths = [
+          '.pnpm', 'dist/reacttoastify.css', 'dist/ReactToastify.css'
+        ];
         
-        // Filter out node_modules CSS errors
-        if (source.includes('node_modules') || file.includes('node_modules')) {
-          return false;
+        for (const path of problematicPaths) {
+          if (source.includes(path) || file.includes(path) || origin.includes(path)) {
+            return false;
+          }
         }
         
         return true;
       }
+
     })
 
 

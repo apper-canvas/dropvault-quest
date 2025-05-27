@@ -1,5 +1,7 @@
-/* Suppress react-toastify import to prevent parsing errors */
-/* @import 'react-toastify/dist/ReactToastify.css'; */
+/* Complete react-toastify CSS replacement to prevent parsing errors */
+/* Original import: @import 'react-toastify/dist/ReactToastify.css'; */
+/* This custom implementation provides all necessary toast functionality */
+
 
 
 @import 'tailwindcss/base';

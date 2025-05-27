@@ -20,6 +20,5 @@ const ApperIcon = memo(({ name, className = '', ...props }) => {
 
 ApperIcon.displayName = 'ApperIcon'
 
-};
 
 export default ApperIcon;

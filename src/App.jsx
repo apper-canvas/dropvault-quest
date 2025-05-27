@@ -112,7 +112,6 @@ function AppContent() {
         progressClassName="bg-primary"
       />
     </div>
-    </div>
   )
 }
 

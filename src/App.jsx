@@ -1,3 +1,5 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
 import { useState, useEffect, createContext, useContext } from 'react'
 
 import { ToastContainer } from 'react-toastify'
@@ -65,6 +67,8 @@ function App() {
 
 function AppContent() {
   const { darkMode } = useTheme()
+  return (
+
 
     <div className={`min-h-screen transition-all duration-300 ${darkMode ? 'dark' : ''} bg-gradient-to-br from-surface-0 via-primary-50/30 to-secondary-50/20 dark:from-surface-950 dark:via-surface-900 dark:to-surface-800 relative overflow-hidden`}>
 
@@ -108,8 +112,8 @@ function AppContent() {
         progressClassName="bg-primary"
       />
     </div>
-}
-
+    </div>
+  )
 }
 
 export default App

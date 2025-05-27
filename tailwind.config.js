@@ -183,27 +183,26 @@ export default {
       transitionDuration: {
         '400': '400ms'
       }
+    },
+    animation: {
+      'float': 'float 6s ease-in-out infinite',
+      'shimmer': 'shimmer 3s linear infinite',
+      'glow': 'glow 2s ease-in-out infinite alternate'
+    },
+    keyframes: {
+      float: {
+        '0%, 100%': { transform: 'translateY(0px)' },
+        '50%': { transform: 'translateY(-20px)' }
       },
-
-      animation: {
-        'float': 'float 6s ease-in-out infinite',
-        'shimmer': 'shimmer 3s linear infinite',
-        'glow': 'glow 2s ease-in-out infinite alternate'
+      shimmer: {
+        '0%': { backgroundPosition: '-200% 0' },
+        '100%': { backgroundPosition: '200% 0' }
       },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' }
-        },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' }
-        },
-        glow: {
-          '0%': { boxShadow: '0 0 20px rgba(168, 85, 247, 0.1)' },
-          '100%': { boxShadow: '0 0 30px rgba(168, 85, 247, 0.2)' }
-        }
+      glow: {
+        '0%': { boxShadow: '0 0 20px rgba(168, 85, 247, 0.1)' },
+        '100%': { boxShadow: '0 0 30px rgba(168, 85, 247, 0.2)' }
       }
+    }
 
 
   },
@@ -224,7 +223,7 @@ export default {
       }
       addUtilities(themeUtilities)
     },
-
+    function({ addUtilities }) {
       const newUtilities = {
         '.glass': {
           background: 'rgba(255, 255, 255, 0.05)',
@@ -239,6 +238,7 @@ export default {
       }
       addUtilities(newUtilities)
     }
+
   ],
   darkMode: 'class',
 }

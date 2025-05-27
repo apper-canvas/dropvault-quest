@@ -8,6 +8,9 @@ export const getFileIcon = (type) => {
   if (type.includes('zip') || type.includes('rar')) return 'Archive'
   return 'File'
 }
+export const getFileColor = (type) => {
+  if (type.startsWith('image/')) return 'text-emerald-500'
+
 
   if (type.startsWith('video/')) return 'text-purple-500'
   if (type.startsWith('audio/')) return 'text-orange-500'
@@ -17,6 +20,7 @@ export const getFileIcon = (type) => {
   if (type.includes('zip') || type.includes('rar')) return 'text-yellow-600'
   return 'text-surface-500'
 }
+
 
 
 export const formatFileSize = (bytes) => {
@@ -101,4 +105,12 @@ export const getLanguageFromExtension = (filename) => {
     'txt': 'text',
     'md': 'markdown'
   }
+}
+
+export const isTextFile = (type, name) => {
+  return type.startsWith('text/') || 
+         name.endsWith('.txt') || 
+         name.endsWith('.md') || 
+         name.endsWith('.readme')
+
   return languageMap[ext] || 'text'

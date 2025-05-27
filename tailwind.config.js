@@ -164,6 +164,10 @@ export default {
       backdropBlur: {
         'xs': '2px',
         '4xl': '72px'
+      transitionDuration: {
+        '400': '400ms'
+      },
+
       },
       animation: {
         'fade-in': 'fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1)',

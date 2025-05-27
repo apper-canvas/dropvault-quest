@@ -17,7 +17,14 @@ import Status from './pages/Status'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-purple-50/20 to-violet-50/30 dark:from-slate-900 dark:via-purple-950/10 dark:to-violet-950/5">
+    <div className="min-h-screen bg-gradient-to-br from-surface-0 via-primary-50/30 to-secondary-50/20 relative overflow-hidden">
+      {/* Ambient Background Effects */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-primary-300/20 to-transparent rounded-full blur-3xl animate-float"></div>
+        <div className="absolute top-1/3 right-0 w-80 h-80 bg-gradient-to-bl from-secondary-300/20 to-transparent rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-gradient-to-tr from-accent-300/20 to-transparent rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+      </div>
+
       <Routes>
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/" element={<LandingPage />} />

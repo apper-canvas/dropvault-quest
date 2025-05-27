@@ -20,7 +20,10 @@
     "react-pdf": "^7.5.1",
     "mammoth": "^1.6.0",
     "file-saver": "^2.0.5",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "@fontsource/inter": "^5.0.16",
+    "@headlessui/react": "^1.7.17"
+
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

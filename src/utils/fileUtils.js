@@ -105,6 +105,7 @@ export const getLanguageFromExtension = (filename) => {
     'txt': 'text',
     'md': 'markdown'
   }
+  return languageMap[ext] || 'text'
 }
 
 export const isTextFile = (type, name) => {
@@ -112,5 +113,4 @@ export const isTextFile = (type, name) => {
          name.endsWith('.txt') || 
          name.endsWith('.md') || 
          name.endsWith('.readme')
-
-  return languageMap[ext] || 'text'
+}

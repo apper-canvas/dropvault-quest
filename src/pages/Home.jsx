@@ -106,9 +106,12 @@ const Home = () => {
     const link = document.createElement('a')
     link.href = file.url
     link.download = file.name
+    document.body.appendChild(link)
     link.click()
+    document.body.removeChild(link)
     toast.success(`${file.name} downloaded successfully`)
   }
+
 
 
   const getFileIcon = (type) => {
@@ -314,7 +317,8 @@ const Home = () => {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           className="p-2 rounded-xl bg-surface-100 dark:bg-surface-700 hover:bg-surface-200 dark:hover:bg-surface-600 transition-colors duration-200"
-                          onClick={() => toast.info('Download feature coming soon!')}
+                          onClick={() => downloadFile(file)}
+
                         >
                           <ApperIcon name="Download" className="w-4 h-4 text-surface-600 dark:text-surface-400" />
                         </motion.button>

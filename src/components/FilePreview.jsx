@@ -17,11 +17,10 @@ import {
   isPDFFile,
   isDocumentFile,
   isCodeFile,
-  isTextFile,
   getLanguageFromExtension,
   canPreviewFile,
   getPreviewType
-} from '../utils/fileUtils'
+
 import { toast } from 'react-toastify'
 
 // Set up PDF.js worker
@@ -327,11 +326,12 @@ const FilePreview = ({ file, onClose, onDownload }) => {
   }
 
 
-  // Keyboard navigation for preview
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'Escape') {
       onClose()
     }
+  }, [onClose])
+
   // Load content based on file type
   useEffect(() => {
     setLoading(true)
@@ -357,7 +357,6 @@ const FilePreview = ({ file, onClose, onDownload }) => {
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
-
 
   return (
     <AnimatePresence>
@@ -420,15 +419,6 @@ const FilePreview = ({ file, onClose, onDownload }) => {
             )}
             
             {!loading && renderPreview()}
-          </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  )
-}
-
-export default FilePreview
-
           </div>
         </motion.div>
       </motion.div>

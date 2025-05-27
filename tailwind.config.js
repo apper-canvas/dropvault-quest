@@ -168,34 +168,36 @@ export default {
       transitionDuration: {
         '400': '400ms'
       }
-      },
-      /* Toast notification CSS variables */
-      toastify: {
-        'color-light': '#ffffff',
-        'color-dark': '#121212',
-        'color-info': '#3498db',
-        'color-success': '#07bc0c',
-        'color-warning': '#f1c40f',
-        'color-error': '#e74c3c',
-        'color-transparent': 'rgba(255, 255, 255, 0.7)',
-        'color-progress-light': 'linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d92)',
-        'color-progress-dark': '#bb86fc',
-        'color-progress-info': '#3498db',
-        'color-progress-success': '#07bc0c',
-        'color-progress-warning': '#f1c40f',
-        'color-progress-error': '#e74c3c',
-        'text-color-light': '#757575',
-        'text-color-dark': '#d9d9d9',
-        'text-color-info': '#fff',
-        'text-color-success': '#fff',
-        'text-color-warning': '#fff',
-        'text-color-error': '#fff',
-        'spinner-color': '#616161',
-        'spinner-color-empty-area': '#e0e0e0',
-        'z-index': '9999'
-      }
+    }
+  },
+  /* Toast notification CSS variables */
+  toastify: {
+    'color-light': '#ffffff',
+    'color-dark': '#121212',
+    'color-info': '#3498db',
+    'color-success': '#07bc0c',
+    'color-warning': '#f1c40f',
+    'color-error': '#e74c3c',
+    'color-transparent': 'rgba(255, 255, 255, 0.7)',
+    'color-progress-light': 'linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d92)',
+    'color-progress-dark': '#bb86fc',
+    'color-progress-info': '#3498db',
+    'color-progress-success': '#07bc0c',
+    'color-progress-warning': '#f1c40f',
+    'color-progress-error': '#e74c3c',
+    'text-color-light': '#757575',
+    'text-color-dark': '#d9d9d9',
+    'text-color-info': '#fff',
+    'text-color-success': '#fff',
+    'text-color-warning': '#fff',
+    'text-color-error': '#fff',
+    'spinner-color': '#616161',
+    'spinner-color-empty-area': '#e0e0e0',
+    'z-index': '9999'
+  },
+  theme: {
+    extend: {
 
-      },
       animation: {
         'fade-in': 'fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
         'fade-in-up': 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)',

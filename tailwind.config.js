@@ -8,35 +8,36 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#14b8a6',
-          light: '#5eead4',
-          dark: '#0f766e'
+          DEFAULT: '#8b5cf6',
+          light: '#a78bfa',
+          dark: '#7c3aed'
         },
         secondary: {
-          DEFAULT: '#10b981',
-          light: '#6ee7b7',
-          dark: '#047857'
+          DEFAULT: '#a855f7',
+          light: '#c084fc',
+          dark: '#9333ea'
         },
-        accent: '#06b6d4',
+        accent: '#d946ef',
         surface: {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          200: '#99f6e4',
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0d9488',
-          700: '#0f766e',
-          800: '#115e59',
-          900: '#134e4a'
+          50: '#faf5ff',
+          100: '#f3e8ff',
+          200: '#e9d5ff',
+          300: '#d8b4fe',
+          400: '#c084fc',
+          500: '#a855f7',
+          600: '#9333ea',
+          700: '#7c3aed',
+          800: '#6b21a8',
+          900: '#581c87'
         },
         upload: {
-          zone: '#f0fdfa',
-          border: '#99f6e4',
-          active: '#ccfbf1',
+          zone: '#faf5ff',
+          border: '#e9d5ff',
+          active: '#f3e8ff',
           success: '#d1fae5',
           error: '#fee2e2'
         }
+      },
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui'],

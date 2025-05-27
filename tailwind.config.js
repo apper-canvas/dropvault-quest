@@ -94,7 +94,8 @@ export default {
           500: '#3b82f6',
           600: '#2563eb',
           700: '#1d4ed8'
-        }
+        },
+
         dark: {
           50: '#0f172a',
           100: '#1e293b',
@@ -183,6 +184,7 @@ export default {
         '400': '400ms'
       }
       },
+
       animation: {
         'float': 'float 6s ease-in-out infinite',
         'shimmer': 'shimmer 3s linear infinite',
@@ -203,11 +205,12 @@ export default {
         }
       }
 
+
   },
   plugins: [
     require('@tailwindcss/typography'),
-    function({ addUtilities }) {
     function({ addUtilities, theme }) {
+
       const themeUtilities = {
         '.theme-transition': {
           transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease'

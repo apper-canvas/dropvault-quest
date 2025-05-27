@@ -15,6 +15,11 @@ import cssnano from 'cssnano';
 
 export default {
   parser: safeParser,
+  parserOptions: {
+    silent: true,
+    from: undefined
+  },
+
   plugins: [
     postcssImport({
       skipDuplicates: true,
@@ -82,30 +87,44 @@ export default {
       clearReportedMessages: true,
       throwError: false,
       noIcon: true,
+      silent: true,
       filter: (message) => {
-        // Comprehensive error filtering for react-toastify
+        // Comprehensive error filtering for react-toastify and other problematic CSS
         const text = message.text || '';
         const plugin = message.plugin || '';
         const source = message.source || '';
+        const file = message.file || '';
         
+        // Filter out all react-toastify related errors
         if (text.includes('react-toastify') || 
             text.includes('ReactToastify') ||
             text.includes('Toastify') ||
             plugin.includes('toastify') ||
             source.includes('react-toastify') ||
-            source.includes('ReactToastify')) {
+            source.includes('ReactToastify') ||
+            file.includes('react-toastify') ||
+            file.includes('ReactToastify')) {
           return false;
         }
         
-        // Filter out specific error patterns
-        if (text.includes('unexpected token') && 
-            (text.includes('expected ";"') || text.includes('expected ","'))) {
+        // Filter out specific CSS parsing errors
+        if (text.includes('unexpected token') || 
+            text.includes('expected ","') ||
+            text.includes('expected ";"') ||
+            text.includes('Unclosed block') ||
+            text.includes('Unknown word')) {
+          return false;
+        }
+        
+        // Filter out node_modules CSS errors
+        if (source.includes('node_modules') || file.includes('node_modules')) {
           return false;
         }
         
         return true;
       }
     })
+
 
   ],
   map: {

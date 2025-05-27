@@ -1,3 +1,6 @@
+import safeParser from 'postcss-safe-parser';
+
+
 export default {
   plugins: {
     'postcss-import': {
@@ -33,8 +36,9 @@ export default {
       throwError: false
     }
   },
-  parser: require('postcss-safe-parser'),
   map: {
+  parser: safeParser,
+
     inline: false,
     annotation: true
   }

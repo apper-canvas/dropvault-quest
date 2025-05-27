@@ -8,34 +8,34 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#8b5cf6',
-          light: '#a78bfa',
-          dark: '#7c3aed'
+          DEFAULT: '#a78bfa',
+          light: '#c4b5fd',
+          dark: '#8b5cf6'
         },
         secondary: {
-          DEFAULT: '#a855f7',
-          light: '#c084fc',
-          dark: '#9333ea'
+          DEFAULT: '#c084fc',
+          light: '#ddd6fe',
+          dark: '#a855f7'
         },
-        accent: '#d946ef',
+        accent: '#e879f9',
         surface: {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          300: '#d8b4fe',
-          400: '#c084fc',
-          500: '#a855f7',
-          600: '#9333ea',
-          700: '#7c3aed',
-          800: '#6b21a8',
-          900: '#581c87'
+          50: '#fefefe',
+          100: '#fcfcfd',
+          200: '#f8fafc',
+          300: '#f1f5f9',
+          400: '#e2e8f0',
+          500: '#cbd5e1',
+          600: '#94a3b8',
+          700: '#64748b',
+          800: '#475569',
+          900: '#334155'
         },
         upload: {
-          zone: '#faf5ff',
-          border: '#e9d5ff',
-          active: '#f3e8ff',
-          success: '#d1fae5',
-          error: '#fee2e2'
+          zone: '#fefefe',
+          border: '#e2e8f0',
+          active: '#f8fafc',
+          success: '#f0fdf4',
+          error: '#fef2f2'
         }
       },
 

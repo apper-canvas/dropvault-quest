@@ -17,7 +17,7 @@ import Status from './pages/Status'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50/30 to-fuchsia-50/20 dark:from-purple-900 dark:via-violet-950/20 dark:to-fuchsia-950/10">
+    <div className="min-h-screen bg-gradient-to-br from-white via-purple-50/20 to-violet-50/30 dark:from-slate-900 dark:via-purple-950/10 dark:to-violet-950/5">
       <Routes>
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/" element={<LandingPage />} />

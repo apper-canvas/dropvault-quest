@@ -17,10 +17,12 @@ import {
   isPDFFile,
   isDocumentFile,
   isCodeFile,
+  isTextFile,
   getLanguageFromExtension,
   canPreviewFile,
   getPreviewType
 } from '../utils/fileUtils'
+
 
 import { toast } from 'react-toastify'
 

@@ -287,8 +287,16 @@
 }
 
 .document-viewer {
-  @apply prose prose-lg dark:prose-invert max-w-none;
+  @apply max-w-none;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: theme('colors.surface.700');
 }
+
+.dark .document-viewer {
+  color: theme('colors.surface.300');
+}
+
 
 .document-viewer h1,
 .document-viewer h2,

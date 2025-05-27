@@ -11,6 +11,13 @@ export const getFileIcon = (type) => {
 
 export const getFileColor = (type) => {
   if (type.startsWith('image/')) return 'text-green-500'
+
+export const isTextFile = (type, name) => {
+  if (type.startsWith('text/')) return true
+  const textExtensions = ['.txt', '.md', '.rtf']
+  return textExtensions.some(ext => name.toLowerCase().endsWith(ext))
+}
+
   if (type.startsWith('video/')) return 'text-purple-500'
   if (type.startsWith('audio/')) return 'text-orange-500'
   if (type.includes('pdf')) return 'text-red-500'

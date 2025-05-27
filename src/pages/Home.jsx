@@ -2,6 +2,8 @@ import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import FilePreview from '../components/FilePreview'
+
 import ApperIcon from '../components/ApperIcon'
 
 const Home = () => {
@@ -9,6 +11,9 @@ const Home = () => {
   const [uploadedFiles, setUploadedFiles] = useState([])
   const [dragActive, setDragActive] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [showPreview, setShowPreview] = useState(false)
+  const [previewFile, setPreviewFile] = useState(null)
+
   const fileInputRef = useRef(null)
 
   const toggleDarkMode = () => {
@@ -51,14 +56,17 @@ const Home = () => {
     for (let file of fileArray) {
       await new Promise(resolve => setTimeout(resolve, 1000)) // Simulate upload delay
       
+      const fileUrl = URL.createObjectURL(file)
       const newFile = {
         id: Date.now() + Math.random(),
         name: file.name,
         size: file.size,
         type: file.type,
+        url: fileUrl,
         uploadDate: new Date(),
         progress: 100
       }
+
       
       setUploadedFiles(prev => [...prev, newFile])
       toast.success(`${file.name} uploaded successfully!`)
@@ -83,6 +91,25 @@ const Home = () => {
     const i = Math.floor(Math.log(bytes) / Math.log(k))
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
   }
+
+  const openPreview = (file) => {
+    setPreviewFile(file)
+    setShowPreview(true)
+  }
+
+  const closePreview = () => {
+    setShowPreview(false)
+    setPreviewFile(null)
+  }
+
+  const downloadFile = (file) => {
+    const link = document.createElement('a')
+    link.href = file.url
+    link.download = file.name
+    link.click()
+    toast.success(`${file.name} downloaded successfully`)
+  }
+
 
   const getFileIcon = (type) => {
     if (type.startsWith('image/')) return 'Image'
@@ -278,7 +305,8 @@ const Home = () => {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           className="p-2 rounded-xl bg-surface-100 dark:bg-surface-700 hover:bg-surface-200 dark:hover:bg-surface-600 transition-colors duration-200"
-                          onClick={() => toast.info('Preview feature coming soon!')}
+                          onClick={() => openPreview(file)}
+
                         >
                           <ApperIcon name="Eye" className="w-4 h-4 text-surface-600 dark:text-surface-400" />
                         </motion.button>
@@ -325,6 +353,16 @@ const Home = () => {
               </p>
             </motion.section>
           )}
+
+          {/* File Preview Modal */}
+          {showPreview && previewFile && (
+            <FilePreview
+              file={previewFile}
+              onClose={closePreview}
+              onDownload={downloadFile}
+            />
+          )}
+
         </div>
       </motion.main>
     </div>

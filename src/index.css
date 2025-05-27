@@ -1,3 +1,7 @@
+/* Suppress react-toastify import to prevent parsing errors */
+/* @import 'react-toastify/dist/ReactToastify.css'; */
+
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
